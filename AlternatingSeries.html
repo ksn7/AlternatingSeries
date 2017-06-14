@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Alternating Series</title>
+    <script src="https://sagecell.sagemath.org/static/jquery.min.js"></script>
+    <script src="https://sagecell.sagemath.org/embedded_sagecell.js"></script>
+    <script>
+$(function () {
+    // Make *any* div with class 'compute' a Sage cell
+    sagecell.makeSagecell({inputLocation: 'div.compute',
+    						template:       sagecell.templates.minimal,
+                           evalButtonText: 'Launch the Interactive Applet Now'});
+});
+    </script>
+  </head>
+  <body style="width: 1000px;">
+
+  <h1>Alternating Series</h1>
+
+<p>An Interactive Applet powered by Sage and MathJax.</p>
+<p>(By Kelsey Norman with HTML code from Prof. Gregory V. Bard)</p>
+
+<hr>
+
+<div class="compute">
+<script type="text/x-sage">
+
+var('k')
+
+@interact( layout = [ ['alt', 'N'] ])
+def alternating( alt = input_box( default = (-1)^(x-1)/x, label = "terms of the series", width = 20), 
+        N = input_box( default = 60, label = "number of terms", width = 5) ):
+    a(x) = alt.function(x)
+
+    s(x) = sum(a(k), k, 1, x)
+    termPts = [(1,a(1))]
+    myPlot = list_plot( [(1,0), termPts[0]], plotjoined=True, color="blue" )
+    partialSumPts = [(1,a(1))]
+    for j in range(2,N+1):
+        termPts.append((j, a(j)))
+        myPlot += list_plot( [(j,0), termPts[j-1]], plotjoined=True, color="blue")
+        partialSumPts.append((j, s(j).n()))
+  
+    graph = myPlot + list_plot(termPts, size=15, color="blue", legend_label = "sequence terms") + list_plot(partialSumPts, size=15, color="red", legend_label = "series terms")
+    
+    termPts2 = termPts
+    partialSumPts2 = partialSumPts
+    for j in range(N+1,1000):
+        termPts2.append((j, a(j)))
+        partialSumPts2.append((j, s(j).n()))
+        
+    f = plot( partialSumPts2[-1][1], 0, 60, color = '#b30000', legend_label = "Limit approx. (1000 terms)" )
+    graph += f
+    graph.show()
+    
+
+</script>
+</div>
+
+<hr>
+Last modified on June 14th, 2017.
+</body>
+</html>
