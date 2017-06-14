@@ -42,6 +42,14 @@ def alternating( alt = input_box( default = (-1)^(x-1)/x, label = "terms of the 
         termPts.append((j, a(j)))
         myPlot += list_plot( [(j,0), termPts[j-1]], plotjoined=True, color="blue")
         partialSumPts.append((j, s(j).n()))
+        if j == N-1:
+            s_n1 = s(j).n()
+            print "S(N-1) = " + str(s(j).n())
+        if j == N:
+            s_n = s(j).n()
+            print "S(N) = " + str(s(j).n())
+            print "S(N) - S(N-1) = " + str( s_n - s_n1)  
+            print "For comparison, a(n) = " + str( a(j).n() )
   
     graph = myPlot + list_plot(termPts, size=15, color="blue", legend_label = "sequence terms") + list_plot(partialSumPts, size=15, color="red", legend_label = "series terms")
     
@@ -54,7 +62,6 @@ def alternating( alt = input_box( default = (-1)^(x-1)/x, label = "terms of the 
     f = plot( partialSumPts2[-1][1], 0, 60, color = '#b30000', legend_label = "Limit approx. (1000 terms)" )
     graph += f
     graph.show()
-    
 
 </script>
 </div>
