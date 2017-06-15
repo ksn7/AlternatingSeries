@@ -32,33 +32,45 @@ var('k')
 @interact( layout = [ ['alt', 'N'] ])
 def alternating( alt = input_box( default = (-1)^(x-1)/x, label = "terms of the series", width = 20), 
         N = input_box( default = 60, label = "number of terms", width = 5) ):
+    
+    # Avoid the deprecation warning
     a(x) = alt.function(x)
 
+    # Set up for taking partial sums, plotting the points, and plotting the partial sums
     s(x) = sum(a(k), k, 1, x)
     termPts = [(1,a(1))]
     myPlot = list_plot( [(1,0), termPts[0]], plotjoined=True, color="blue" )
     partialSumPts = [(1,a(1))]
+    
+    # Loop through terms 2 through n
     for j in range(2,N+1):
         termPts.append((j, a(j)))
         myPlot += list_plot( [(j,0), termPts[j-1]], plotjoined=True, color="blue")
         partialSumPts.append((j, s(j).n()))
+        
+        # At term n-1, print the value
         if j == N-1:
             s_n1 = s(j).n()
             print "S(N-1) = " + str(s(j).n())
+            
+        # At term n, print the value, the difference from term n-1, and the nth term of a
         if j == N:
             s_n = s(j).n()
             print "S(N) = " + str(s(j).n())
             print "S(N) - S(N-1) = " + str( s_n - s_n1)  
             print "For comparison, a(n) = " + str( a(j).n() )
   
+    # Combine all things to be plotted  
     graph = myPlot + list_plot(termPts, size=15, color="blue", legend_label = "sequence terms") + list_plot(partialSumPts, size=15, color="red", legend_label = "series terms")
     
+    # Make copies of the above, then iterate up to the 1000th term / "limit"
     termPts2 = termPts
     partialSumPts2 = partialSumPts
     for j in range(N+1,1000):
         termPts2.append((j, a(j)))
         partialSumPts2.append((j, s(j).n()))
-        
+     
+    # Graph the limit as a line, append the the plot, and show the graph
     f = plot( partialSumPts2[-1][1], 0, 60, color = '#b30000', legend_label = "Limit approx. (1000 terms)" )
     graph += f
     graph.show()
@@ -67,6 +79,6 @@ def alternating( alt = input_box( default = (-1)^(x-1)/x, label = "terms of the 
 </div>
 
 <hr>
-Last modified on June 14th, 2017.
+Last modified on June 15th, 2017.
 </body>
 </html>
