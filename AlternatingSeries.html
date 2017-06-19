@@ -27,17 +27,19 @@ $(function () {
 <div class="compute">
 <script type="text/x-sage">
 
-var('k')
+var('k, n')
 
-@interact( layout = [ ['alt', 'N'] ])
-def alternating( alt = input_box( default = (-1)^(x-1)/x, label = "terms of the series", width = 20), 
-        N = input_box( default = 60, label = "number of terms", width = 5) ):
+@interact( layout = [ ['alt', 'N'], ['n_min', 'n_max'] ])
+def alternating( alt = input_box( default = (-1)^(n-1)/n, label = "a(n) = ", width = 20), 
+        N = input_box( default = 60, label = "N = ", width = 5),
+        n_min = input_box( default = 0, label = "For Graphing: n_min", width = 5),
+        n_max = input_box( default = 60, label = "For Graphing: n_max", width = 5) ):
     
     # Avoid the deprecation warning
-    a(x) = alt.function(x)
+    a(n) = alt.function(n)
 
     # Set up for taking partial sums, plotting the points, and plotting the partial sums
-    s(x) = sum(a(k), k, 1, x)
+    s(n) = sum(a(k), k, 1, n)
     termPts = [(1,a(1))]
     myPlot = list_plot( [(1,0), termPts[0]], plotjoined=True, color="blue" )
     partialSumPts = [(1,a(1))]
@@ -57,8 +59,8 @@ def alternating( alt = input_box( default = (-1)^(x-1)/x, label = "terms of the 
         if j == N:
             s_n = s(j).n()
             print "S(N) = " + str(s(j).n())
-            print "S(N) - S(N-1) = " + str( s_n - s_n1)  
-            print "For comparison, a(n) = " + str( a(j).n() )
+            print "|S(N) - S(N-1)| = |a(N)| = " + str( a(j).n() )
+            print "|S(N) - S(1000)| = " + str( s(j).n() - s(1000).n() )
   
     # Combine all things to be plotted  
     graph = myPlot + list_plot(termPts, size=15, color="blue", legend_label = "sequence terms") + list_plot(partialSumPts, size=15, color="red", legend_label = "series terms")
@@ -79,6 +81,6 @@ def alternating( alt = input_box( default = (-1)^(x-1)/x, label = "terms of the 
 </div>
 
 <hr>
-Last modified on June 15th, 2017.
+Last modified on June 19th, 2017.
 </body>
 </html>
