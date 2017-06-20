@@ -24,6 +24,23 @@ $(function () {
 
 <hr>
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script src="jquery.jslatex.js"></script>
+
+<script>
+$(function () {
+    $(".latex").latex();
+});
+</script>
+
+<div class="latex">
+    \textrm{We approximate the infinite series } \sum_{n=1}^{\infty}a_n \textrm{ by  the  truncated  sum } \sum_{n=1}^N a_n.
+    \\
+    \textrm{Specifically, we show that the error term } | S(N) - L | \leq |a(N)| \textrm{, where we approximate the limit L by } S(1000).
+</div>
+
+<hr>
+
 <div class="compute">
 <script type="text/x-sage">
 
@@ -43,24 +60,20 @@ def alternating( alt = input_box( default = (-1)^(n-1)/n, label = "a(n) = ", wid
     termPts = [(n_min, a(n_min))]
     myPlot = list_plot( [(n_min, 0), termPts[0]], plotjoined=True, color="blue" )
     partialSumPts = [(n_min, a(n_min))]
+    l = 0
+    
+    # Print S(N) and S(N-1)
+    print "S(N-1) = " + str(s(N-1).n())
+    print "S(N) = " + str(s(N).n())
+    print "|S(N) - S(N-1)| = |a(N)| = " + str( a(N).n() )
+    print "|S(N) - S(1000)| = " + str( s(N).n() - s(1000).n() )
     
     # Loop through terms 2 through n
     for j in range(n_min + 1, n_max + 1):
+        l += 1
         termPts.append((j, a(j)))
-        myPlot += list_plot( [(j,0), termPts[j-1]], plotjoined=True, color="blue")
+        myPlot += list_plot( [(j,0), termPts[l]], plotjoined=True, color="blue")
         partialSumPts.append((j, s(j).n()))
-        
-        # At term n-1, print the value
-        if j == N-1:
-            s_n1 = s(j).n()
-            print "S(N-1) = " + str(s(j).n())
-            
-        # At term n, print the value, the difference from term n-1, and the nth term of a
-        if j == N:
-            s_n = s(j).n()
-            print "S(N) = " + str(s(j).n())
-            print "|S(N) - S(N-1)| = |a(N)| = " + str( a(j).n() )
-            print "|S(N) - S(1000)| = " + str( s(j).n() - s(1000).n() )
   
     # Combine all things to be plotted  
     graph = myPlot + list_plot(termPts, size=15, color="blue", legend_label = "sequence terms") + list_plot(partialSumPts, size=15, color="red", legend_label = "series terms")
@@ -73,10 +86,10 @@ def alternating( alt = input_box( default = (-1)^(n-1)/n, label = "a(n) = ", wid
         partialSumPts2.append((j, s(j).n()))
      
     # Graph the limit as a line, append the the plot, and show the graph
-    f = plot( partialSumPts2[-1][1], 0, n_max, color = '#b30000', legend_label = "Limit approx. (1000 terms)" )
+    f = plot( partialSumPts2[-1][1], n_min, n_max, color = '#b30000', legend_label = "Limit approx. (1000 terms)" )
     graph += f
     graph.show()
-    
+
 </script>
 </div>
 
