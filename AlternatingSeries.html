@@ -32,8 +32,8 @@ var('k, n')
 @interact( layout = [ ['alt', 'N'], ['n_min', 'n_max'] ])
 def alternating( alt = input_box( default = (-1)^(n-1)/n, label = "a(n) = ", width = 20), 
         N = input_box( default = 60, label = "N = ", width = 5),
-        n_min = input_box( default = 1, label = "For Graphing: n_min", width = 5),
-        n_max = input_box( default = 60, label = "For Graphing: n_max", width = 5) ):
+        n_min = input_box( default = 1, label = "Viewing Window: n_min", width = 5),
+        n_max = input_box( default = 60, label = "Viewing Window: n_max", width = 5) ):
     
     # Avoid the deprecation warning
     a(n) = alt.function(n)
@@ -76,7 +76,7 @@ def alternating( alt = input_box( default = (-1)^(n-1)/n, label = "a(n) = ", wid
     f = plot( partialSumPts2[-1][1], 0, n_max, color = '#b30000', legend_label = "Limit approx. (1000 terms)" )
     graph += f
     graph.show()
-
+    
 </script>
 </div>
 
