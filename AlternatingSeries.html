@@ -32,7 +32,7 @@ var('k, n')
 @interact( layout = [ ['alt', 'N'], ['n_min', 'n_max'] ])
 def alternating( alt = input_box( default = (-1)^(n-1)/n, label = "a(n) = ", width = 20), 
         N = input_box( default = 60, label = "N = ", width = 5),
-        n_min = input_box( default = 0, label = "For Graphing: n_min", width = 5),
+        n_min = input_box( default = 1, label = "For Graphing: n_min", width = 5),
         n_max = input_box( default = 60, label = "For Graphing: n_max", width = 5) ):
     
     # Avoid the deprecation warning
@@ -40,12 +40,12 @@ def alternating( alt = input_box( default = (-1)^(n-1)/n, label = "a(n) = ", wid
 
     # Set up for taking partial sums, plotting the points, and plotting the partial sums
     s(n) = sum(a(k), k, 1, n)
-    termPts = [(1,a(1))]
-    myPlot = list_plot( [(1,0), termPts[0]], plotjoined=True, color="blue" )
-    partialSumPts = [(1,a(1))]
+    termPts = [(n_min, a(n_min))]
+    myPlot = list_plot( [(n_min, 0), termPts[0]], plotjoined=True, color="blue" )
+    partialSumPts = [(n_min, a(n_min))]
     
     # Loop through terms 2 through n
-    for j in range(2,N+1):
+    for j in range(n_min + 1, n_max + 1):
         termPts.append((j, a(j)))
         myPlot += list_plot( [(j,0), termPts[j-1]], plotjoined=True, color="blue")
         partialSumPts.append((j, s(j).n()))
@@ -68,12 +68,12 @@ def alternating( alt = input_box( default = (-1)^(n-1)/n, label = "a(n) = ", wid
     # Make copies of the above, then iterate up to the 1000th term / "limit"
     termPts2 = termPts
     partialSumPts2 = partialSumPts
-    for j in range(N+1,1000):
+    for j in range( n_max + 1, 1000):
         termPts2.append((j, a(j)))
         partialSumPts2.append((j, s(j).n()))
      
     # Graph the limit as a line, append the the plot, and show the graph
-    f = plot( partialSumPts2[-1][1], 0, 60, color = '#b30000', legend_label = "Limit approx. (1000 terms)" )
+    f = plot( partialSumPts2[-1][1], 0, n_max, color = '#b30000', legend_label = "Limit approx. (1000 terms)" )
     graph += f
     graph.show()
 
@@ -81,6 +81,6 @@ def alternating( alt = input_box( default = (-1)^(n-1)/n, label = "a(n) = ", wid
 </div>
 
 <hr>
-Last modified on June 19th, 2017.
+Last modified on June 20th, 2017.
 </body>
 </html>
