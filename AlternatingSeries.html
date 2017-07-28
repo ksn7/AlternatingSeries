@@ -75,7 +75,7 @@ def alternating( alt = input_box( default = (-1)^(n-1)/n, label = "a(n) = ", wid
     
     # Print S(N) and S(N-1)
     pretty_print( "S(N-1) = " + str(s(N-1).n()) + ", S(N) = " + str(s(N).n()) )
-    pretty_print( "|S(N) - S(N-1)| = |a(N)| = " + str( a(N).n() ) + ", |S(N) - S(1000)| = " + str( s(N).n() - s(1000).n() ) )
+    pretty_print( "|S(N) - S(N-1)| = |a(N)| = " + str( abs(a(N)).n() ) + ", |S(N) - S(1000)| = " + str( abs(s(N).n() - s(1000).n()) ) )
     
     # Loop through terms 2 through n
     for j in range(n_min + 1, n_max + 1):
@@ -106,6 +106,6 @@ def alternating( alt = input_box( default = (-1)^(n-1)/n, label = "a(n) = ", wid
 </div>
 
 <hr>
-Last modified on July 26th, 2017.
+Last modified on July 28th, 2017.
 </body>
 </html>
